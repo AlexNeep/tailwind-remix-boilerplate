@@ -9,7 +9,9 @@ import { db } from "~/utils/firebase.server";
 export default function Index() {
   return (
     <div>
-      <h1 className=" font-bold  text-blue-600">Welcome to Remix</h1>
+      <section className="text-center py-4">
+        <h1 className="font-bold text-primary-600">Do I need an umbrella?</h1>
+      </section>
     </div>
   );
 }
