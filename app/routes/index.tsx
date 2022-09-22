@@ -1,15 +1,36 @@
 import { Form, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { json } from "@remix-run/node";
-import { get12HourForecast } from "~/api/router";
+import { getOpenWeather12HourForecast } from "~/api/router";
 import { WeatherRow } from "~/components/WeatherRow";
 
 export const loader = async () => {
-  const locationKey = 328328;
+  const data = await getOpenWeather12HourForecast(44.34, 10.99);
+  const { list } = data;
 
-  const hourlyForecast = await get12HourForecast(locationKey);
+  const weatherData = list.map(
+    ({
+      dt,
+      weather,
+      main,
+      wind,
+    }: {
+      dt: string;
+      weather: { main: string; description: string }[];
+      main: { temp: string };
+      wind: { speed: string };
+    }) => ({
+      datetime: dt,
+      weather: {
+        title: weather[0].main,
+        description: weather[0].description,
+        temperature: main.temp,
+        wind: wind.speed,
+      },
+    })
+  );
 
-  return json({ hourlyForecast });
+  return json(weatherData);
 };
 
 // export const action = async () => {};
@@ -18,8 +39,7 @@ export default function Index() {
   const [sizeSelectorPosition, setSizeSelectorPosition] = useState("");
   const [location, setLocation] = useState("London");
 
-  const data = useLoaderData();
-  const { hourlyForecast } = data;
+  const weatherDataArray = useLoaderData();
 
   useEffect(() => {
     const onScroll = () => {
@@ -73,7 +93,9 @@ export default function Index() {
             Hourly forecast
           </h2>
 
-          {hourlyForecast && <WeatherRow weatherDataArray={hourlyForecast} />}
+          {weatherDataArray?.length && (
+            <WeatherRow weatherDataArray={weatherDataArray} />
+          )}
 
           <div
             className={`bg-secondary-300 p-4 rounded-lg sticky bottom-0 ${sizeSelectorPosition} `}
