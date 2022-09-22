@@ -1,13 +1,15 @@
 import { Form, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import type { FC } from "react";
 import { json } from "@remix-run/node";
-// import { db } from "~/utils/firebase.server";
+import { get12HourForecast } from "~/api/router";
+import { WeatherRow } from "~/components/WeatherRow";
 
 export const loader = async () => {
-  // const snapshot = await db.collection("users").get();
-  // console.log(snapshot);
-  return json([]);
+  const locationKey = 328328;
+
+  const hourlyForecast = await get12HourForecast(locationKey);
+
+  return json({ hourlyForecast });
 };
 
 // export const action = async () => {};
@@ -16,8 +18,8 @@ export default function Index() {
   const [sizeSelectorPosition, setSizeSelectorPosition] = useState("");
   const [location, setLocation] = useState("London");
 
-  const weatherData = useLoaderData();
-  console.log(weatherData);
+  const data = useLoaderData();
+  const { hourlyForecast } = data;
 
   useEffect(() => {
     const onScroll = () => {
@@ -65,26 +67,13 @@ export default function Index() {
         <h2 className="font-bold text-accent-900 text-2xl p-4">
           Daily forecast
         </h2>
-        <div className="flex gap-4 flex-col">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-            <WeatherCard day="Monday" />
-            <WeatherCard day="Tuesday" />
-            <WeatherCard day="Wednesday" />
-            <WeatherCard day="Thursday" />
-            <WeatherCard day="Friday" />
-          </div>
 
+        <div className="flex gap-4 flex-col">
           <h2 className="font-bold text-accent-900 text-2xl p-4">
             Hourly forecast
           </h2>
 
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-            <WeatherCard time="17:00" />
-            <WeatherCard time="18:00" />
-            <WeatherCard time="19:00" />
-            <WeatherCard time="20:00" />
-            <WeatherCard time="21:00" />
-          </div>
+          {hourlyForecast && <WeatherRow weatherDataArray={hourlyForecast} />}
 
           <div
             className={`bg-secondary-300 p-4 rounded-lg sticky bottom-0 ${sizeSelectorPosition} `}
@@ -96,23 +85,3 @@ export default function Index() {
     </div>
   );
 }
-
-interface weatherStatus {}
-
-interface WeatherCardProps {
-  day?: String;
-  time?: String;
-}
-
-const WeatherCard: FC<WeatherCardProps> = ({ day, time }) => {
-  return (
-    <div className=" bg-primary-600 rounded-lg w-full text-center">
-      {<h2 className="text-secondary-100 font-bold text-lg">{day || time}</h2>}
-      <img
-        src="/assets/umbrella.png"
-        alt="umbrella"
-        className="w-16 h-auto p-4 m-auto"
-      />
-    </div>
-  );
-};
