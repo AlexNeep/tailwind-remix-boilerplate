@@ -4,8 +4,7 @@ import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log(formData);
+  console.log(request);
   const location = "London";
   return redirect(`/location/${location}`);
 };
