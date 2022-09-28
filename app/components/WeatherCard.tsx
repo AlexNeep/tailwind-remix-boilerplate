@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import type { WeatherData } from "~/types";
-import { convertKelvinToCelcius } from "~/utils/utils";
 
 export const WeatherCard: FC<WeatherData> = ({ datetime, weather }) => {
   const date = new Date(datetime * 1000);
@@ -20,9 +19,7 @@ export const WeatherCard: FC<WeatherData> = ({ datetime, weather }) => {
         alt="umbrella"
         className="w-16 h-auto p-4 m-auto"
       />
-      <p className="text-secondary-100">
-        {convertKelvinToCelcius(weather.temperature)}°
-      </p>
+      <p className="text-secondary-100">{weather.temperature}°</p>
     </div>
   );
 };

@@ -4,22 +4,19 @@ export const getOpenWeather12HourForecast = async (
   longitude: number,
   latitude: number
 ) => {
-  console.log(process.env.NODE_ENV === "development");
-
-  const request =
+  const response =
     process.env.NODE_ENV === "development"
       ? Promise.resolve(json(mockResponse))
       : fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&APPID=${process.env.OPEN_WEATHER_API_KEY}`
+          `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&APPID=${process.env.OPEN_WEATHER_API_KEY}`
         );
 
-  return request
+  return response
     .then((res) => res.json())
     .then((data) => {
       if (data.cod !== "200") {
         throw Error;
       }
-
       const shorterForecast = data.list.slice(0, 3);
 
       return { ...data, list: shorterForecast };
