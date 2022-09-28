@@ -1,12 +1,15 @@
 import { useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 
+export const meta: MetaFunction = () => {
+  return { title: "Weather - Select Location" };
+};
+
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log(formData);
+  console.log(request);
   const location = "London";
-  console.log(location);
   return redirect(`/location/${location}`);
 };
 

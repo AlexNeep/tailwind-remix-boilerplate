@@ -3,9 +3,17 @@ import { useEffect, useState } from "react";
 import { json } from "@remix-run/node";
 import { getOpenWeather12HourForecast } from "~/api/router";
 import { WeatherRow } from "~/components/WeatherRow";
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = ({ data, params }) => {
+  const { location } = params;
+  //update favicon based on data
+  console.log(data);
+  return { title: `Weather - ${location}` };
+};
 
 export const loader = async () => {
-  const data = await getOpenWeather12HourForecast(44.34, 10.99);
+  const data = await getOpenWeather12HourForecast(0.1276, 51.5072);
   const { list } = data;
 
   const weatherData = list.map(
