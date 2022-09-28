@@ -2,6 +2,7 @@ import { Outlet } from "@remix-run/react";
 import { useState } from "react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
+import { Button, BUTTON_STYLES } from "~/components/Buttons";
 
 export const action: ActionFunction = async ({ request }) => {
   // console.log({ request });
@@ -26,12 +27,9 @@ export default function Index() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <button
-            type="submit"
-            className="font-bold w-full bg-accent-900 text-primary-100 rounded-lg shadow-lg m-auto text-center text-md p-4"
-          >
+          <Button styles={BUTTON_STYLES.SECONDAY} type="submit">
             Do I need an umbrella?
-          </button>
+          </Button>
         </form>
       </section>
 
