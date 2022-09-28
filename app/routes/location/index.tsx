@@ -1,5 +1,4 @@
-import { Outlet, useActionData } from "@remix-run/react";
-import { useState } from "react";
+import { useActionData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 
@@ -12,8 +11,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const [location, setLocation] = useState("London");
-
   const actionData = useActionData();
   console.log(actionData);
 

@@ -1,7 +1,6 @@
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { json, redirect } from "@remix-run/node";
-import type { ActionFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { getOpenWeather12HourForecast } from "~/api/router";
 import { WeatherRow } from "~/components/WeatherRow";
 
@@ -34,16 +33,8 @@ export const loader = async () => {
   return json(weatherData);
 };
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log(formData);
-  const location = "London";
-  return redirect(`/${location}`);
-};
-
 export default function Index() {
   const [sizeSelectorPosition, setSizeSelectorPosition] = useState("");
-  const [location, setLocation] = useState("London");
   const weatherDataArray = useLoaderData();
 
   const actionData = useActionData();
