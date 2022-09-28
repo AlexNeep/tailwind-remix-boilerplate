@@ -1,19 +1,16 @@
-import { Outlet, useActionData } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import { useState } from "react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log(request);
+  // console.log({ request });
   const location = "London";
   return redirect(`/location/${location}`);
 };
 
 export default function Index() {
   const [location, setLocation] = useState("London");
-
-  const actionData = useActionData();
-  console.log(actionData);
 
   return (
     <div className="bg-primary-100 h-full md:h-screen text-center">
@@ -23,8 +20,9 @@ export default function Index() {
             Enter your location
           </label>
           <input
-            className="p-2 w-full rounded-lg my-4 shadow-lg active:shadow-2xl focus:shadow-2xl"
+            className="p-2 w-full rounded-lg my-4 shadow-lg active:shadow-2xl focus:shadow-2xl text-accent-900"
             type="text"
+            name="location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
