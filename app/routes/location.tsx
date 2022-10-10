@@ -27,7 +27,7 @@ export default function Index() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <Button styles={BUTTON_STYLES.SECONDAY} type="submit">
+          <Button styles={BUTTON_STYLES.SECONDARY} type="submit">
             Do I need an umbrella?
           </Button>
         </form>

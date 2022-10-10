@@ -8,7 +8,6 @@ import type { MetaFunction } from "@remix-run/node";
 export const meta: MetaFunction = ({ data, params }) => {
   const { location } = params;
   //update favicon based on data
-  console.log(data);
   return { title: `Weather - ${location}` };
 };
 

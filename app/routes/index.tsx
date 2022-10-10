@@ -13,7 +13,7 @@ export default function Index() {
 
       <Link to="/location/">
         <Link to="/location/">
-          <Button styles={BUTTON_STYLES.SECONDAY}>Start loction search</Button>
+          <Button styles={BUTTON_STYLES.SECONDARY}>Start loction search</Button>
         </Link>
       </Link>
       <Outlet />

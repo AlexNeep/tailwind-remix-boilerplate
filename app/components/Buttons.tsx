@@ -4,7 +4,7 @@ const defaultStyles = "rounded shadow px-5 py-3 transition-all";
 
 export enum BUTTON_STYLES {
   PRIMARY = "bg-primary-300  hover:bg-primary-600",
-  SECONDAY = "bg-secondary-300 hover:bg-secondary-600",
+  SECONDARY = "bg-secondary-300 hover:bg-secondary-600",
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
