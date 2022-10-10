@@ -27,17 +27,30 @@ export const getOpenWeather12HourForecast = async (
     });
 };
 
-export const getLocation = async (request: any) => {
-  console.log(request);
+export const getLocation = async (cityName: string = "London") => {
   const LIMIT = 5;
 
-  const cityName = "London";
-  const postcode = "";
-  const countryCode = "";
+  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${LIMIT}&APPID=${process.env.OPEN_WEATHER_API_KEY}`;
+  console.log(url);
+  const response = fetch(url);
+  return response
+    .then((res) => res.json())
+    .then(
+      (data: { name: string; lat: string; lon: string; country: string }[]) => {
+        const newRes = data.map((location) => ({
+          name: location.name,
+          lat: location.lat,
+          lon: location.lon,
+          country: location.country,
+        }));
 
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${postcode},${countryCode}&limit=${LIMIT}&APPID=${process.env.OPEN_WEATHER_API_KEY}`;
-  const response = await fetch(url);
-  console.log(response);
+        return newRes;
+      }
+    )
+    .catch((error) => {
+      console.log(error);
+      return;
+    });
 };
 
 const mockResponse = {

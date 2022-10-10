@@ -3,9 +3,11 @@ import { useState } from "react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 import { Button, BUTTON_STYLES } from "~/components/Buttons";
+import { getLocation } from "~/api/router";
 
 export const action: ActionFunction = async ({ request }) => {
-  // console.log({ request });
+  const res = await getLocation("London");
+  console.log(res);
   const location = "London";
   return redirect(`/location/${location}`);
 };
