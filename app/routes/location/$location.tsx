@@ -1,6 +1,7 @@
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { getOpenWeather12HourForecast } from "~/api/router";
 import { WeatherRow } from "~/components/WeatherRow";
 import type { MetaFunction } from "@remix-run/node";
@@ -11,7 +12,8 @@ export const meta: MetaFunction = ({ data, params }) => {
   return { title: `Weather - ${location}` };
 };
 
-export const loader = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  console.log(request);
   const data = await getOpenWeather12HourForecast(0.1276, 51.5072);
   const { list } = data;
 
@@ -43,9 +45,6 @@ export const loader = async () => {
 export default function Index() {
   const [sizeSelectorPosition, setSizeSelectorPosition] = useState("");
   const weatherDataArray = useLoaderData();
-
-  const actionData = useActionData();
-  console.log(actionData);
 
   useEffect(() => {
     const onScroll = () => {

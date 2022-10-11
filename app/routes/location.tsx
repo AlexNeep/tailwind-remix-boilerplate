@@ -1,15 +1,22 @@
-import { Outlet } from "@remix-run/react";
+import { Form, Outlet } from "@remix-run/react";
 import { useState } from "react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
 import { Button, BUTTON_STYLES } from "~/components/Buttons";
 import { getLocation } from "~/api/router";
+import type { Location } from "~/api/router";
 
 export const action: ActionFunction = async ({ request }) => {
-  const res = await getLocation("London");
-  console.log(res);
-  const location = "London";
-  return redirect(`/location/${location}`);
+  const formData = await request.formData();
+  const inputLocation = formData.get("location") as string;
+  if (!inputLocation) throw Error("No location provided");
+
+  const locationResponse = await getLocation(inputLocation);
+  if (!locationResponse) throw Error("No matching locations found");
+  console.log(locationResponse);
+  const { name, lat, lon, country } = locationResponse as Location;
+
+  return redirect(`/location/${name}?lat=${lat}&lon=${lon}&country=${country}`);
 };
 
 export default function Index() {
@@ -18,7 +25,7 @@ export default function Index() {
   return (
     <div className="bg-primary-100 h-full md:h-screen text-center">
       <section className="w-9/10 md:w-3/4 mx-auto p-8 text-center py-4">
-        <form method="post" action="/location/">
+        <Form method="post" action="/location/">
           <label className="font-bold text-xl text-accent-900">
             Enter your location
           </label>
@@ -32,7 +39,7 @@ export default function Index() {
           <Button styles={BUTTON_STYLES.SECONDARY} type="submit">
             Do I need an umbrella?
           </Button>
-        </form>
+        </Form>
       </section>
 
       <Outlet />
