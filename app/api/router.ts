@@ -1,4 +1,10 @@
 import { fetch, json } from "@remix-run/node";
+export type Location = {
+  name: string;
+  lat: string;
+  lon: string;
+  country: string;
+};
 
 export const getOpenWeather12HourForecast = async (
   longitude: number,
@@ -37,14 +43,15 @@ export const getLocation = async (cityName: string = "London") => {
     .then((res) => res.json())
     .then(
       (data: { name: string; lat: string; lon: string; country: string }[]) => {
-        const newRes = data.map((location) => ({
+        const newRes: Location[] = data.map((location) => ({
           name: location.name,
           lat: location.lat,
           lon: location.lon,
           country: location.country,
         }));
 
-        return newRes;
+        const extractFirstMatch = newRes[0];
+        return extractFirstMatch;
       }
     )
     .catch((error) => {
