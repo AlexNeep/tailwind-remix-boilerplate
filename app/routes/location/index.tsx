@@ -1,15 +1,7 @@
-import { redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/node";
-import type { ActionFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return { title: "Weather - Select Location" };
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  console.log(request);
-  const location = "London";
-  return redirect(`/location/${location}`);
 };
 
 export default function Index() {
