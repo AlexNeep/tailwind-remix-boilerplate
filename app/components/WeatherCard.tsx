@@ -14,12 +14,7 @@ export const WeatherCard: FC<WeatherData> = ({ datetime, weather }) => {
         <p className="text-white">{weather.description}</p>
       </div>
 
-      <img
-        src="/assets/umbrella.png"
-        alt="umbrella"
-        className="w-16 h-auto p-4 m-auto"
-      />
-      <p className="text-secondary-100">{weather.temperature}°</p>
+      <p className="text-secondary-100">{Math.round(weather.temperature)}°</p>
     </div>
   );
 };

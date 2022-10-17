@@ -13,8 +13,12 @@ export const meta: MetaFunction = ({ data, params }) => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  console.log(request);
-  const data = await getOpenWeather12HourForecast(0.1276, 51.5072);
+  const url = new URL(request.url);
+  const params = url.searchParams;
+  const lat = params.get("lat");
+  const lon = params.get("lon");
+  const data = await getOpenWeather12HourForecast(lon, lat);
+
   const { list } = data;
 
   const weatherData = list.map(

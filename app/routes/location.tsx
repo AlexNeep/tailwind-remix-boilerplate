@@ -1,4 +1,4 @@
-import { Form, Outlet } from "@remix-run/react";
+import { Form, Outlet, useParams } from "@remix-run/react";
 import { useState } from "react";
 import { redirect } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
@@ -13,14 +13,15 @@ export const action: ActionFunction = async ({ request }) => {
 
   const locationResponse = await getLocation(inputLocation);
   if (!locationResponse) throw Error("No matching locations found");
-  console.log(locationResponse);
   const { name, lat, lon, country } = locationResponse as Location;
 
   return redirect(`/location/${name}?lat=${lat}&lon=${lon}&country=${country}`);
 };
 
 export default function Index() {
-  const [location, setLocation] = useState("London");
+  const params = useParams();
+
+  const [location, setLocation] = useState(params.location);
 
   return (
     <div className="bg-primary-100 h-full md:h-screen text-center">

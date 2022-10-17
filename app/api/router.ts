@@ -7,9 +7,11 @@ export type Location = {
 };
 
 export const getOpenWeather12HourForecast = async (
-  longitude: number,
-  latitude: number
+  longitude: string | null,
+  latitude: string | null
 ) => {
+  if (!longitude || !latitude) throw Error("Invalid location");
+
   const response =
     process.env.NODE_ENV === "development"
       ? Promise.resolve(json(mockResponse))
@@ -23,6 +25,7 @@ export const getOpenWeather12HourForecast = async (
       if (data.cod !== "200") {
         throw Error;
       }
+
       const shorterForecast = data.list.slice(0, 3);
 
       return { ...data, list: shorterForecast };
